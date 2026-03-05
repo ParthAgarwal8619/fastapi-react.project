@@ -4,12 +4,19 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
 from app.routers import notes
 
+
+# Create database tables
 Base.metadata.create_all(bind=engine)
 
+
+# FastAPI app
 app = FastAPI(title="Dark Notes API")
 
+
+# CORS settings (React frontend ke liye)
 origins = [
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 
 app.add_middleware(
@@ -20,4 +27,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# Include notes router
 app.include_router(notes.router)
